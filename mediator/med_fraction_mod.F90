@@ -175,7 +175,7 @@ contains
     use med_internalstate_mod , only : coupling_mode
     use med_internalstate_mod , only : compatm, compocn, compice, complnd
     use med_internalstate_mod , only : comprof, compglc, compwav, compname
-    use med_internalstate_mod , only : mapfcopy, mapconsd, mapnstod_consd
+    use med_internalstate_mod , only : mapfcopy, mapconsd, mapnstod_consd, mapbilnr_nstod, mapfillv_bilnr
     use med_internalstate_mod , only : InternalState
     use med_map_mod           , only : med_map_routehandles_init, med_map_rh_is_created
     use med_methods_mod       , only : State_getNumFields => med_methods_State_getNumFields
@@ -326,6 +326,8 @@ contains
        else
           if (coupling_mode(1:9) == 'ufs.nfrac' ) then
              maptype = mapnstod_consd
+          else if (coupling_mode(1:10) == 'ufs.arctic') then
+              maptype = mapbilnr_nstod 
           else
              maptype = mapconsd
           end if
@@ -378,6 +380,8 @@ contains
        else
           if (coupling_mode(1:9) == 'ufs.nfrac' ) then
              maptype = mapnstod_consd
+          else if (coupling_mode(1:10) == 'ufs.arctic') then
+              maptype = mapbilnr_nstod 
           else
              maptype = mapconsd
           end if
@@ -732,7 +736,7 @@ contains
     use ESMF                  , only : ESMF_FieldBundleGet, ESMF_FieldBundleIsCreated
     use ESMF                  , only : ESMF_LogWrite, ESMF_LOGMSG_INFO, ESMF_SUCCESS
     use med_internalstate_mod , only : compatm, compocn, compice, compname
-    use med_internalstate_mod , only : mapfcopy, mapconsd, mapnstod_consd
+    use med_internalstate_mod , only : mapfcopy, mapconsd, mapnstod_consd, mapbilnr_nstod, mapfillv_bilnr
     use med_internalstate_mod , only : coupling_mode
     use med_internalstate_mod , only : InternalState
     use med_map_mod           , only : med_map_RH_is_created
@@ -844,6 +848,8 @@ contains
           ! Determine maptype
           if (coupling_mode(1:9) == 'ufs.nfrac' ) then
              maptype = mapnstod_consd
+          else if (coupling_mode(1:10) == 'ufs.arctic') then
+              maptype = mapbilnr_nstod 
           else
              if (med_map_RH_is_created(is_local%wrap%RH(compice,compatm,:),mapfcopy, rc=rc)) then
                 maptype = mapfcopy
