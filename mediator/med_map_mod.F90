@@ -448,7 +448,10 @@ contains
     end if
     if (trim(coupling_mode) == 'hafs.mom6') then
        polemethod = ESMF_POLEMETHOD_NONE
-    endif
+    end if
+    if (trim(coupling_mode) == 'ufs.arctic') then
+        polemethod = ESMF_POLEMETHOD_NONE
+    end if
 
     ! Create route handle
     if (mapindex == mapfcopy) then
